@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>sample_camera_description</name>
+  <version>0.1.0</version>
+  <description>The sample_camera_description package</description>
+
+  <maintainer email="border_goldenmarket@yahoo.co.jp">Daisuke Nishimatsu</maintainer>
+  <license>Apache License 2.0</license>
+
+  <buildtool_depend>ament_cmake_auto</buildtool_depend>
+
+  <exec_depend>v4l2_camera</exec_depend>
+
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

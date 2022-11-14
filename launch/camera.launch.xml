@@ -1,0 +1,28 @@
+<launch>
+  <arg name="container" default="" />
+  <arg name="container_executable" default="component_container_mt" />
+  <arg name="camera_type" default="" />
+
+  <group if="$(eval &quot;'$(var container)'==''&quot;)">
+    <node_container pkg="rclcpp_components" exec="$(var container_executable)" name="camera_container" namespace="">
+      <composable_node pkg="v4l2_camera" plugin="v4l2_camera::V4L2Camera" name="v4l2_camera" namespace="$(var camera_type)">
+        <param from="$(find-pkg-share sample_camera_description)/config/camera.$(var camera_type).param.yaml" />
+        <param name="camera_info_url" value="package://sample_camera_description/config/camera_info.$(var camera_type).yaml" />
+        <extra_arg name="use_intra_process_comms" value="true" />
+      </composable_node>
+      <composable_node pkg="isaac_ros_image_proc" plugin="nvidia::isaac_ros::image_proc::RectifyNode" name="rectify" namespace="$(var camera_type)">
+      </composable_node>
+    </node_container>
+  </group>
+  <group unless="$(eval &quot;'$(var container)'==''&quot;)">
+    <load_composable_node target="$(var container)">
+      <composable_node pkg="v4l2_camera" plugin="v4l2_camera::V4L2Camera" name="v4l2_camera" namespace="$(var camera_type)">
+        <param from="$(find-pkg-share sample_camera_description)/config/camera.$(var camera_type).param.yaml" />
+        <param name="camera_info_url" value="package://sample_camera_description/config/camera_info.$(var camera_type).yaml" />
+        <extra_arg name="use_intra_process_comms" value="true" />
+      </composable_node>
+      <composable_node pkg="isaac_ros_image_proc" plugin="nvidia::isaac_ros::image_proc::RectifyNode" name="rectify" namespace="$(var camera_type)">
+      </composable_node>
+    </load_composable_node>
+  </group>
+</launch>
